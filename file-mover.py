@@ -53,8 +53,8 @@ def main(args):
     """Main method run from commandline"""
     if incorrect_syntax(args):
         print(
-            'Syntax error. Correct usage:\npython file-mover.py <extension/{}> <directory_from> <directory_to>'.format(
-                all_extensions_keyword))
+            'Syntax error. Correct usage:\npython {} <extension/{}> <directory_from> <directory_to>'.format(
+                all_extensions_keyword, os.path.basename(__file__)))
         return
 
     extension = args[0]
