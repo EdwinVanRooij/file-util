@@ -4,6 +4,7 @@ import sys
 
 all_extensions_keyword = 'all'
 
+
 def incorrect_syntax(arguments):
     """
     Determines whether or not the user entered a correct syntax
@@ -33,11 +34,13 @@ def get_and_move_files(target_extension, source_dir, target_dir_absolute):
             # Retrieve extension of current file
             extension = os.path.splitext(file)[1]
             print('Comparing target ext {} to ext {}...'.format(target_extension, extension))
-            if extension.lower() == target_extension.lower() or extension == all_extensions_keyword:
+
+            # Generate target file path
+            abs_target_file = os.path.join(target_dir_absolute, file)
+            if extension.lower() == target_extension.lower() or extension == all_extensions_keyword \
+                    and not os.path.exists(abs_target_file):
                 # Get absolute file path
                 file_path_abs = os.path.join(root_dir_abs, file)
-                # Generate target file path
-                abs_target_file = os.path.join(target_dir_absolute, file)
                 # Move the file
                 print('Moving file {}...'.format(os.path.basename(file_path_abs)))
                 os.rename(file_path_abs, abs_target_file)
@@ -46,7 +49,9 @@ def get_and_move_files(target_extension, source_dir, target_dir_absolute):
 def main(args):
     """Main method run from commandline"""
     if incorrect_syntax(args):
-        print('Syntax error. Correct usage:\npython file-mover.py <extension/{}> <directory_from> <directory_to>'.format(all_extensions_keyword))
+        print(
+            'Syntax error. Correct usage:\npython file-mover.py <extension/{}> <directory_from> <directory_to>'.format(
+                all_extensions_keyword))
         return
 
     extension = args[0]
