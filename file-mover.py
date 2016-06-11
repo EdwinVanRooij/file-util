@@ -31,19 +31,22 @@ def get_and_move_files(target_extension, source_dir, target_dir_absolute):
         print('Checking in root directory {}...'.format(root_dir_abs))
         # Loop trough every file in current directory
         for file in files:
+            print('Checking file {}...'.format(file))
             # Retrieve extension of current file
             extension = os.path.splitext(file)[1]
-            print('Comparing target ext {} to ext {}...'.format(target_extension, extension))
-
-            # Generate target file path
-            abs_target_file = os.path.join(target_dir_absolute, file)
-            if extension.lower() == target_extension.lower() or extension == all_extensions_keyword \
-                    and not os.path.exists(abs_target_file):
+            # Check if extensions match OR if keyword for all extensions was entered
+            if extension.lower() == target_extension.lower() or target_extension == all_extensions_keyword:
                 # Get absolute file path
                 file_path_abs = os.path.join(root_dir_abs, file)
-                # Move the file
-                print('Moving file {}...'.format(os.path.basename(file_path_abs)))
-                os.rename(file_path_abs, abs_target_file)
+                # Generate target file path
+                abs_target_file = os.path.join(target_dir_absolute, file)
+                # Check whether or not the target filepath is already taken
+                if not os.path.exists(abs_target_file):
+                    # Move the file
+                    print('Moving file {}...'.format(os.path.basename(file_path_abs)))
+                    os.rename(file_path_abs, abs_target_file)
+                else:
+                    print('Tried to move file {}, but file already exists.'.format(os.path.basename(file_path_abs)))
 
 
 def main(args):
@@ -58,7 +61,7 @@ def main(args):
     source_dir = args[1]
     target_dir = args[2]
 
-    print('Checking for extension\t{}\nin directory\t{}\nmoving to\t{}'.format(extension, source_dir, target_dir))
+    print('\nChecking for extension\t{}\nin directory\t{}\nmoving to\t{}\n'.format(extension, source_dir, target_dir))
 
     get_and_move_files(extension, source_dir, os.path.abspath(target_dir))
 
