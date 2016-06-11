@@ -26,11 +26,13 @@ def get_and_move_files(target_extension, source_dir, target_dir_absolute):
     for root_dir, subdirectories, files in os.walk(source_dir):
         # Absolute path of source directory
         root_dir_abs = os.path.abspath(root_dir)
+        print('Checking in root directory {}...'.format(root_dir_abs))
         # Loop trough every file in current directory
         for file in files:
             # Retrieve extension of current file
             extension = os.path.splitext(file)[1]
-            if extension == target_extension:
+            print('Comparing target ext {} to ext {}...'.format(target_extension, extension))
+            if extension.lower() == target_extension.lower():
                 # Get absolute file path
                 file_path_abs = os.path.join(root_dir_abs, file)
                 # Generate target file path
@@ -50,7 +52,7 @@ def main(args):
     source_dir = args[1]
     target_dir = args[2]
 
-    print('Correct syntax, entered: {}, {}, {}'.format(extension, source_dir, target_dir))
+    print('Checking for extension\t{}\nin directory\t{}\nmoving to\t{}'.format(extension, source_dir, target_dir))
 
     get_and_move_files(extension, source_dir, os.path.abspath(target_dir))
 
