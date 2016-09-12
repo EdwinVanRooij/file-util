@@ -2,7 +2,7 @@
 import os
 import sys
 
-all_extensions_keyword = 'all/<.ex>'
+all_extensions_keyword = 'all'
 
 
 def incorrect_syntax(arguments):
@@ -54,7 +54,7 @@ def main(args):
     if incorrect_syntax(args):
         print(
             'Syntax error. Correct usage:\npython {} <extension/{}> <directory_from> <directory_to>'.format(
-                all_extensions_keyword, os.path.basename(__file__)))
+                os.path.basename(__file__), all_extensions_keyword))
         return
 
     extension = args[0]

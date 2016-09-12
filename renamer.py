@@ -1,8 +1,6 @@
+#!/usr/bin/python
 import os
 import sys
-
-def rename():
-    [os.rename(f, f.replace('_', '-')) for f in os.listdir('.') if not f.startswith('.')]
 
 
 def incorrect_syntax(arguments):
@@ -12,25 +10,43 @@ def incorrect_syntax(arguments):
     :return: true or false
     """
 
-    if len(arguments) is not 3:
+    if len(arguments) is not 1:
         return True
+
+
+def rename_files(source_dir, new_name):
+    """
+    Searches trough a directory, moves all files with given extension
+    to target directory.
+    :return:
+    """
+    for root_dir, subdirectories, files in os.walk(source_dir):
+        # Absolute path of source directory
+        root_dir_abs = os.path.abspath(root_dir)
+        print('Checking in root directory {}...'.format(root_dir_abs))
+
+        counter = 1
+
+        # Loop trough every file in current directory
+        for file in files:
+            print('Checking file {}...'.format(file))
+            real_new_name = '{}_{}'.format(new_name, counter)
+            os.rename(file, real_new_name)
+            counter += 1
+            print('Renaming file to {}...'.format(real_new_name))
 
 
 def main(args):
     """Main method run from commandline"""
     if incorrect_syntax(args):
         print(
-            'Syntax error. Correct usage:\npython {} <extension/{}> <directory_from> <directory_to>'.format(
-                all_extensions_keyword, os.path.basename(__file__)))
+            'Syntax error. Correct usage:\npython {} <new_name>'.format(
+                os.path.basename(__file__)))
         return
 
-    extension = args[0]
-    source_dir = args[1]
-    target_dir = args[2]
+    new_name = args[0]
 
-    print('\nChecking for extension\t{}\nin directory\t{}\nmoving to\t{}\n'.format(extension, source_dir, target_dir))
-
-    get_and_move_files(extension, source_dir, os.path.abspath(target_dir))
+    rename_files(os.getcwd(), new_name)
 
     print('\n')
 
