@@ -2,7 +2,7 @@
 import os
 import sys
 
-all_extensions_keyword = 'all'
+all_extensions_keyword = 'all/<.ex>'
 
 
 def incorrect_syntax(arguments):
