@@ -22,27 +22,25 @@ def rename_files(source_dir, new_name_raw):
     # Number to put behind new name
     index = 0
 
-    # Loop trough files
-    for root_dir, subdirectories, files in os.walk(source_dir):
-        # Absolute path of source directory
-        root_dir_abs = os.path.abspath(root_dir)
-        print('Checking in root directory {}...'.format(root_dir_abs))
+    for dirpath, dirnames, filenames in os.walk(source_dir):
+        for filename in filenames:
+            full_path = os.path.join(dirpath, filename)
 
-        # Loop trough every file in current directory
-        for file in files:
             index += 1
 
             # Extract extension
-            file_extension = os.path.splitext(file)[1]
+            filename, file_extension = os.path.splitext(full_path)
 
             # Create new name
             new_name = new_name_raw + str(index) + file_extension
 
             # Rename
-            print('Renaming {} to {}'.format(file, new_name))
-            os.rename(file, new_name)
+            print('Renaming {} to {}'.format(full_path, new_name))
+            os.rename(full_path, new_name)  # Call main method
+
+            # # Loop trough files
+            # for root_dir, subdirectories, files in os.walk(source_dir):
 
 
-# Call main method
 if __name__ == '__main__':
     main()
