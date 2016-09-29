@@ -32,7 +32,13 @@ def rename_files(source_dir, new_name_raw):
             filename, file_extension = os.path.splitext(full_path)
 
             # Create new name
-            new_name = new_name_raw + str(index) + file_extension
+            # Split the extension from the path and normalise it to lowercase.
+            extension = os.path.splitext(filename)[-1].lower()
+            if extension is not '':
+                new_name_raw, file_extension = os.path.splitext(full_path)
+                new_name = new_name_raw + str(index) + file_extension
+            else:
+                new_name = new_name_raw + str(index) + file_extension
 
             # Rename
             print('Renaming {} to {}'.format(full_path, new_name))
